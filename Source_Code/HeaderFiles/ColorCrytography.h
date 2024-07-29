@@ -1,43 +1,65 @@
 #pragma once
-#include <bits/stdc++.h>
-#include "ByteManager.h"
+#include<bits/stdc++.h>
 using namespace std;
-class ColorManager
+class ColorCryptograph
 {
-    int *rgb;
-    int enc_index, dec_index;
+private:
+    vector<vector<vector<int>>> map;
+    int sequence[11] = {0, 1, 2, 2, 1, 0, 0, 1, 1, 2, 0};
+    int encIndex, decIndex;
 
 public:
-    ColorManager(string nK)
+    ColorCryptograph(string key)
     {
-        rgb = new int[3];
-        enc_index = dec_index = -1;
+        int r = stoi(key.substr(0, 2));
+        int g = stoi(key.substr(2, 2));
+        int b = stoi(key.substr(4));
 
-        int partB = stoi(nK.substr(12));                 // int(nK[12:])
-        rgb[0] = (stoi(nK.substr(0, 4)) + partB) % 256;  // int(nK[0:4])
-        rgb[1] = (stoi(nK.substr(4, 8)) + partB) % 256;  // int(nK[4:8])
-        rgb[2] = (stoi(nK.substr(8, 12)) + partB) % 256; // int(nK[8:12])
+        int i, j, k;
+        int n;
+        int bands[] = {r, g, b};
+
+        map.resize(3, vector<vector<int>>(16, vector<int>(16)));
+
+        encIndex = 0;
+        decIndex = 0;
+
+
+        for (i = 0; i < map.size(); i++)
+        {
+            n = bands[i];
+            for (j = 0; j < map[i].size(); j++)
+            {
+                for (k = 0; k <map[i][j].size(); k++)
+                {
+                    map[i][j][k] = n;
+                    n = (n + 1) % 256;
+                }
+            }
+        }
+
+        encIndex = 0;
+        decIndex = 0;
     }
 
     int encrypt(int data)
     {
-        int nibbles[2];
-        ByteManager b;
-        b.byteToNibble(data, nibbles);
-        enc_index = (enc_index + 1) % 3; // 3 is size of rgb array
-        return (rgb[enc_index] + nibbles[0] * 16 + nibbles[1]) % 256;
+        //break the data into nibbles
+        int r = data >> 4; 
+        //r=data/16
+        int c = data & 0xF; //AND with 1111
+
+        int result = map[sequence[encIndex]][r][c];
+        encIndex = (encIndex + 1) % (sizeof(sequence) / sizeof(sequence[0]));
+        return result;
     }
 
-    int decrypt(int data)
+    int decrypt(int encData)
     {
-        int temp;
-        int nibbles[2];
-        dec_index = (dec_index + 1) % 3;
-        temp = (data - rgb[dec_index] + 256) % 256;
-
-        nibbles[0] = temp / 16;
-        nibbles[1] = temp % 16;
-        ByteManager b;
-        return b.nibblesToByte(nibbles);
+        int temp = (encData - map[sequence[decIndex]][0][0] + 256) % 256;
+        int r = temp / 16;
+        int c = temp % 16;
+        decIndex = (decIndex + 1) % (sizeof(sequence) / sizeof(sequence[0]));
+        return (r << 4) | c;
     }
 };

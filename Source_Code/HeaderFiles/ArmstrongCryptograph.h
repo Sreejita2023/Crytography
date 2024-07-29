@@ -1,38 +1,30 @@
 #pragma once
 #include<bits/stdc++.h>
 using namespace std;
-class ArmstrongManager {
-    string numericKey;
-    int enc_index, dec_index;
-public:
-    ArmstrongManager(string nK) {
-        numericKey = nK;
-        enc_index = -1;
-        dec_index = -1;
-    }
+class ArmstrongCrytograph{
+private:
+    int encIndex;
+    int decIndex;
+    vector<int>key;
 
-    int encrypt(int data) {
-        // cout<<data<<"$$4"<<"\n";
-        try {
-            return data ^ numericKey[++enc_index];
-        }
-        catch (int ex) {
-            enc_index = -1;
-            return data ^ numericKey[++enc_index];
+ public:
+    ArmstrongCrytograph(string k){
+        int i,l;
+        l=k.length();
+ 
+        key.resize(l);
+        for(int i=0;i<l;i++){
+            key[i]=static_cast<int>(k[i]-'0');
         }
     }
-
-
-    int decrypt(int data)
-    {
-        try
-        {
-            return data ^ numericKey[++dec_index];
-        }
-        catch (int ex)
-        {
-            dec_index = -1;
-            return data ^ numericKey[++dec_index];
-        }
+    int encrypt(int x){
+        int temp=x^key[encIndex];
+        encIndex = (encIndex + 1) % key.size();
+        return temp;
+    }
+    int decrypt(int x){
+        int temp=x^key[decIndex];
+        decIndex = (decIndex + 1) % key.size();
+        return temp;
     }
 };
