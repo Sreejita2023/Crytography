@@ -1,7 +1,7 @@
 
 # Security Using Colors and Armstrong Numbers 
 
-A C++ Program that enables Double layer encryption and decryption of data using Armstrong Numbers and RGB color model for text file format.
+A **research-based** C++ Program that enables Double layer encryption and decryption of data using Armstrong Numbers and RGB color model for text file format.
 
 
 ## Tech Stack
