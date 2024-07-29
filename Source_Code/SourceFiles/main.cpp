@@ -1,38 +1,49 @@
-#include "../HEADERFILES/ArmstrongCryptograph.h"
-#include "../HEADERFILES/ColorCrytography.h"
-#include "../HEADERFILES/KeyGenerator.h"
-#include <bits/stdc++.h>
-
+#include<bits/stdc++.h>
+#include"../HeaderFiles/Crytography.h"
 using namespace std;
 int main() {
-    string data = "This is an very important statement.";
-    string key = "How old is my computer?";
-    KeyGenerator kGen(key);
-    string nK = kGen.getNumericKey();
-    //DEBUG
-    kGen.display();
-    ArmstrongManager aMgr(nK);
-    ColorManager cMgr(nK);
+    Cryptography cr;
+    try {
+        string srcFile, trgtFile;
+        int ch;
 
-    string encData = "";
-    int temp;
-    
-    for (int i = 0; i < data.length(); i++) {
-        temp = aMgr.encrypt(data[i]);
-        temp = cMgr.encrypt(temp);
-        encData = encData + (char)temp;
+        while (true) {
+            cout << "1. Encrypt" << endl;
+            cout << "2. Decrypt" << endl;
+            cout << "3. Exit" << endl;
+
+            cin >> ch;
+
+            if (ch == 1) {
+                cout << "Enter the absolute path of the file to encrypt: ";
+                cin >> srcFile;
+                cout << "Enter the absolute path of the target file: ";
+                cin >> trgtFile;
+
+                if (cr.encrypt(srcFile, trgtFile))
+                    cout << "Encryption Successful" << endl;
+                else
+                    cout << "Encryption Failed" << endl;
+            } else if (ch == 2) {
+                cout << "Enter the absolute path of the file to decrypt: ";
+                cin >> srcFile;
+                cout << "Enter the absolute path of the target file: ";
+                cin >> trgtFile;
+
+                if (cr.decrypt(srcFile, trgtFile))
+                    cout << "Decryption Successful" << endl;
+                else
+                    cout << "Decryption Failed" << endl;
+            } else if (ch == 3) {
+                break;
+            } else {
+                cout << "Wrong Choice" << endl;
+            }
+        }
+    } catch (const exception& ex) {
+        cerr << "Error in decrypt: " << ex.what() << endl;
     }
 
-    string decData = "";
-    for (int i = 0; i < encData.length(); i++) {
-        temp = cMgr.decrypt(encData[i]);
-        temp = aMgr.decrypt(temp);
-
-        decData = decData + (char)temp;
-    }
-
-    cout << "data: " << data << "  " << data.length() << "\n";
-    cout << "enc data: " << encData << "  " << encData.length() << "\n";
-    cout << "dec data: " << decData << "  " << decData.length() << "\n";
-
+    return 0;
 }
+
