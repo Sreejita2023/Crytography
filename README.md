@@ -42,6 +42,13 @@ Matrix-3 : 231, 232, 233, ..., 255, 0, 1, 2, 3, ... 230
 - FlowChart
 ![Screenshot 2024-07-30 010549](https://github.com/user-attachments/assets/3c91b882-34a8-49c0-9e42-41186b77fc5e)
 
+- Color Encryption
+![Screenshot 2024-07-30 182008](https://github.com/user-attachments/assets/8419f218-9554-4c8a-aa52-ccaa79e2dcd7)
+
+- Armstrong Encryption
+![Screenshot 2024-07-30 183447](https://github.com/user-attachments/assets/3a81ecbd-69ce-4450-9ce6-f2bb10b24748)
+
+
 ## Advantages: 
 
 1. **Enhanced Security Through Complexity:** The technique uses a minimum key length of 8 bits for Armstrong numbers, which can be increased if needed, enhancing the complexity and security of the encryption. This complexity makes it difficult for unauthorized parties to decrypt the data without knowing the exact encoding process.
